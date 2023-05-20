@@ -10,6 +10,7 @@ import { StaffI } from "@/models";
 export type MutationPayload = {
     deleteStaff:number,
     sortedByList:string
+    addStaff:StaffI
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -33,6 +34,9 @@ export const mutations: MutationTree<State> & Mutations = {
             employess.sortedBy = pattern;
         }
     },
+    addStaff({employess},payload) {
+        employess.list.push(payload)
+    }
 };
 
 /*

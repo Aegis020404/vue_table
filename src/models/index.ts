@@ -3,9 +3,9 @@
 export interface StaffI {
     firstName: string;
     lastName: string;
-    middleName: string | null;
+    middleName: string;
     birthDate: string; // ISO Format, e.g. 1986-12-08
-    description: string | null;
+    description: string;
     id:number
 }
 export interface HomeViewI {

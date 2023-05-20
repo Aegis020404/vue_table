@@ -27,6 +27,7 @@ export default defineComponent({
   <main class="table">
     <section class="table__header">
       <img src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png" alt="">
+      <router-link to="/add_staff ">Добавить пользователя</router-link> |
     </section>
     <section class="table__body">
       <table v-if="$store.state.employess.list.length">
