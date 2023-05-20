@@ -47,6 +47,7 @@
                         <th> Отчество <span class="icon-arrow">&UpArrow;</span></th>
                         <th> Дата рождения <span class="icon-arrow">&UpArrow;</span></th>
                         <th> Описание <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>  </th>
                     </tr>
                 </thead>
                 <tbody>
