@@ -51,6 +51,7 @@
 <template>
   <main class="table">
         <section class="table__header">
+          <img src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png" alt="">
         </section>
         <section class="table__body">
             <table v-if="list.length">
@@ -223,9 +224,7 @@ tbody tr.hide {
     transform: translateX(100%);
 }
 
-tbody tr:hover {
-    background-color: #fff6 !important;
-}
+
 
 tbody tr td,
 tbody tr td p,
@@ -281,8 +280,8 @@ tbody tr.hide td img {
 
 
 
-thead th:hover {
-    color: #2B2F3B;
+th:hover {
+    color: #003fff;
 }
 
 
@@ -290,79 +289,6 @@ thead th:hover {
 
 
 
-.export__file {
-    position: relative;
-}
-
-.export__file .export__file-btn {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    /* background: #fff6 url(images/export.png) center / 80% no-repeat; */
-    border-radius: 50%;
-    transition: .2s ease-in-out;
-}
-
-.export__file .export__file-btn:hover {
-    background-color: #fff;
-    transform: scale(1.15);
-    cursor: pointer;
-}
-
-.export__file input {
-    display: none;
-}
-
-.export__file .export__file-options {
-    position: absolute;
-    right: 0;
-
-    width: 12rem;
-    border-radius: .5rem;
-    overflow: hidden;
-    text-align: center;
-
-    opacity: 0;
-    transform: scale(.8);
-    transform-origin: top right;
-
-    box-shadow: 0 .2rem .5rem #0004;
-
-    transition: .2s;
-}
-
-.export__file input:checked + .export__file-options {
-    opacity: 1;
-    transform: scale(1);
-    z-index: 100;
-}
-
-.export__file .export__file-options label{
-    width: 100%;
-    padding: .6rem 0;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    transition: .2s ease-in-out;
-}
-
-.export__file .export__file-options label:first-of-type{
-    padding: 1rem 0;
-    background-color: #86e49d !important;
-}
-
-.export__file .export__file-options label:hover{
-    transform: scale(1.05);
-    background-color: #fff;
-    cursor: pointer;
-}
-
-.export__file .export__file-options img{
-    width: 2rem;
-    height: auto;
-}
 
 .thead {
   /*align-items: center;*/
