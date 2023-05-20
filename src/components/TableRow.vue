@@ -9,8 +9,8 @@
       <td class="td">{{ staff.description }}</td>
       <td class="td"><img src="@/assets/img/edit.svg" alt="pen for edit"></td>
       <!-- <td class="td" @click=" $store.commit('deleteStaff',staff.id)   "> -->
-      <td class="td" @click="deleteStaff(staff.id)">
-        <img src="@/assets/img/delete.svg" alt="basket for delete">
+      <td class="td deleteBtn"  @click="deleteStaff(staff.id)">
+        <img src="@/assets/img/delete.svg"  alt="basket for delete">
       </td>
     </tr>
   </transition-group>
@@ -43,4 +43,24 @@ export default defineComponent({
 .list-leave-active {
   position: absolute;
 }
+.deleteBtn {
+  cursor: pointer;
+}
+
+/* tr:nth-child(even) {
+  background: red !important;
+} */
+
+tr:nth-child(even) {
+  background: #333742;
+}
+
+@media (max-width: 1000px) {
+  td:not(:first-of-type) {
+    min-width: 12.1rem;
+  }
+}
+
+
+
 </style>

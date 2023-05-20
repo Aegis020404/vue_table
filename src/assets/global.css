@@ -6,12 +6,17 @@
 }
 
 body {
+    color: rgb(255, 255, 255);
+    background-color: #232429;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+table,th {
+    background-color: #2B2F3B;
 
+}
 table, th, td {
     border-collapse: collapse;
     padding: 1rem;

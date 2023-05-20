@@ -27,7 +27,7 @@ export default defineComponent({
   <main class="table">
     <section class="table__header">
       <img src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png" alt="">
-      <router-link to="/add_staff">Добавить пользователя</router-link> |
+      <router-link to="/add_staff">Добавить пользователя</router-link>
     </section>
     <section class="table__body">
       <table v-if="$store.state.employess.list.length">
@@ -59,7 +59,6 @@ export default defineComponent({
 .table {
   width: 82vw;
   height: 90vh;
-  background-color: #fff5;
   box-shadow: 0 .4rem .8rem #0005;
   border-radius: .8rem;
   overflow: hidden;
@@ -68,26 +67,31 @@ export default defineComponent({
 .table__header {
   width: 100%;
   height: 10%;
-  background-color: #fff4;
   padding: .8rem 1rem;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-
+th:hover {
+  color: #003fff;
+}
 .table__body {
   width: 95%;
   max-height: calc(89% - 1.6rem);
-  background-color: #fffb;
 
   margin: .8rem auto;
   border-radius: .6rem;
 
   overflow: auto;
 }
-
+th {
+  position: sticky;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  text-transform: capitalize;
+}
 .table__body::-webkit-scrollbar {
   width: 0.5rem;
   height: 0.5rem;
@@ -95,7 +99,7 @@ export default defineComponent({
 
 .table__body::-webkit-scrollbar-thumb {
   border-radius: .5rem;
-  background-color: #0004;
+  /* background-color: #0004; */
   visibility: hidden;
 }
 
@@ -107,46 +111,20 @@ table {
   width: 100%;
 }
 
-
-
-th {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background-color: #d5d1defe;
-  cursor: pointer;
-  text-transform: capitalize;
-}
-
-tr:nth-child(even) {
-  background-color: #0000000b;
-}
-
-
-
-tbody tr.hide td img {
-  width: 0;
-  height: 0;
-  transition: .2s ease-in-out .5s;
-}
-
-
-@media (max-width: 1000px) {
-  td:not(:first-of-type) {
-    min-width: 12.1rem;
-  }
-}
-
-th:hover {
-  color: #003fff;
-}
-
 .icon-arrow {
   display: inline-block;
   width: 1.3rem;
   height: 0.9rem;
   position: relative;
 }
+
+
+
+
+
+
+
+
 
 .triangle {
   position: absolute;
