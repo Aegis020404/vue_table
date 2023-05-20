@@ -5,12 +5,11 @@
       <td class="td"><input type="checkbox"></td>
       <td class="td">{{ staff.firstName }}</td>
       <td class="td">{{ staff.lastName }}</td>
+      
       <td class="td">{{ staff.middleName }}</td>
       <td class="td">{{ staff.birthDate }}</td>
       <td class="td">{{ staff.description }}</td>
       <td class="td"><img src="@/assets/img/edit.svg" alt="pen for edit"></td>
-      <!-- <td class="td" @click=" $store.commit('deleteStaff',staff.id)   "> -->
-      <!-- <td class="td deleteBtn"  @click="deleteStaff(staff.id)"> -->
       <td class="td deleteBtn"  @click="$emit('turnOnModalDeleting',staff.id)">
         <img src="@/assets/img/delete.svg"  alt="basket for delete">
       </td>
@@ -30,7 +29,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.list-move, /* apply transition to moving elements */
+.list-move, 
 .list-enter-active,
 .list-leave-active {
   transition: all 1s ease;
@@ -49,10 +48,6 @@ export default defineComponent({
   cursor: pointer;
 }
 
-/* tr:nth-child(even) {
-  background: red !important;
-} */
-
 tr:nth-child(even) {
   transition: all 1s  ,background .3s ease;
   background: #333742;
@@ -63,7 +58,6 @@ tr:nth-child(even) {
     min-width: 12.1rem;
   }
 }
-
 
 
 </style>

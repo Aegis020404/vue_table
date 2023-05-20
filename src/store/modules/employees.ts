@@ -11,6 +11,7 @@ export type MutationPayload = {
     deleteStaff:number,
     sortedByList:string
     addStaff:StaffI
+    editStaff:StaffI
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -38,6 +39,9 @@ export const mutations: MutationTree<State> & Mutations = {
     addStaff({employess},payload) {
         employess.list.push(payload)
         localStorage.setItem("list",JSON.stringify(employess.list));
+
+    },
+    editStaff({employess},payload) {
 
     }
 };
