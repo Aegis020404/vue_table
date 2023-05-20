@@ -1,310 +1,236 @@
 <script lang="ts">
-  import {defineComponent} from 'vue'
-  import {HomeViewI,StaffI} from '@/models'
-  export default defineComponent({
-    data(): HomeViewI {
-      return {
-        list: [
-          {id:1,firstName:"zlex", lastName:"Володя",middleName:null,birthDate:new Date(Date.now()).toISOString(),description:"Работяга"},
-          {id:2,firstName:"blex", lastName:"Алерго",middleName:null,birthDate:Date.now()+"",description:"НеРаботяга"},
-          {id:3,firstName:"clex", lastName:"Лерго",middleName:"Лемур",birthDate:Date.now()+"",description:"разраб"},
-          {id:4,firstName:"dlex", lastName:"Сюрелиант",middleName:"Авокадо",birthDate:Date.now()+"",description:"айтишник"},
-          {id:5,firstName:"elex", lastName:"Sergio",middleName:"Суслик",birthDate:Date.now()+"",description:"дизайнер"},
-        ],
-        listPattern:[
-          ["firstName", "Фамилия",'1'],
-          ["lastName", "Имя",'2'],
-          ["middleName", "Отчество",'3'],
-          ["birthDate", "Дата рождения",'4'],
-          ["description", "Описание",'5']
-    ]
-        ,
-        sortedBy: '',
+import {defineComponent} from 'vue'
+import {HomeViewI, StaffI} from '@/models'
+import TableRow from '../components/TableRow.vue'
+
+export default defineComponent({
+  components:{
+    TableRow
+  },
+  data(): HomeViewI {
+    return {
+
+      list: [
+        {
+          id: 1,
+          firstName: "zlex",
+          lastName: "Володя",
+          middleName: null,
+          birthDate: new Date(Date.now()).toISOString(),
+          description: "Работяга"
+        },
+        {
+          id: 2,
+          firstName: "blex",
+          lastName: "Алерго",
+          middleName: null,
+          birthDate: Date.now() + "",
+          description: "НеРаботяга"
+        },
+        {
+          id: 3,
+          firstName: "clex",
+          lastName: "Лерго",
+          middleName: "Лемур",
+          birthDate: Date.now() + "",
+          description: "разраб"
+        },
+        {
+          id: 4,
+          firstName: "dlex",
+          lastName: "Сюрелиант",
+          middleName: "Авокадо",
+          birthDate: Date.now() + "",
+          description: "айтишник"
+        },
+        {
+          id: 5,
+          firstName: "elex",
+          lastName: "Sergio",
+          middleName: "Суслик",
+          birthDate: Date.now() + "",
+          description: "дизайнер"
+        },
+      ],
+      listPattern: [
+        ["firstName", "Фамилия", '1'],
+        ["lastName", "Имя", '2'],
+        ["middleName", "Отчество", '3'],
+        ["birthDate", "Дата рождения", '4'],
+        ["description", "Описание", '5']
+      ]
+      ,
+      sortedBy: '',
+    }
+  },
+  methods: {
+    sortedByList(pattern: string) {
+      if (pattern === this.sortedBy) {
+        this.list.sort((staff1, staff2): number => {
+          const value1 = String(staff1[pattern as keyof StaffI]);
+          const value2 = String(staff2[pattern as keyof StaffI]);
+          return value2.localeCompare(value1);
+        });
+        this.sortedBy = pattern.split("").reverse().join("");
+      } else {
+        this.list.sort((staff1, staff2): number => {
+          const value1 = String(staff1[pattern as keyof StaffI]);
+          const value2 = String(staff2[pattern as keyof StaffI]);
+          return value1.localeCompare(value2);
+        });
+        this.sortedBy = pattern;
       }
     },
-    methods:{
-        sortedByList(pattern:string) {
-        if(pattern === this.sortedBy) {
-          this.list.sort((staff1, staff2): number => {
-            const value1 = String(staff1[pattern as keyof StaffI]);
-            const value2 = String(staff2[pattern as keyof StaffI]);
-            return value2.localeCompare(value1);
-          });
-          this.sortedBy = pattern.split("").reverse().join("");
-        } else {
-          this.list.sort((staff1, staff2): number => {
-            const value1 = String(staff1[pattern as keyof StaffI]);
-            const value2 = String(staff2[pattern as keyof StaffI]);
-            return value1.localeCompare(value2);
-          });
-          this.sortedBy = pattern;
-        }
-      },
-      deleteStaff(id:number) {
-        this.list= this.list.filter((staff) => staff.id !== id);
-      }
-    },
-  })
+    deleteStaff(id: number) {
+      this.list = this.list.filter((staff) => staff.id !== id);
+    }
+  },
+})
 </script>
 
 
 <template>
   <main class="table">
-        <section class="table__header">
-          <img src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png" alt="">
-        </section>
-        <section class="table__body">
-            <table v-if="list.length">
-                <thead>
-                    <tr>
-                        <th/>
-                        <th v-for="pattern of listPattern" :key="pattern.id" @click="sortedByList(pattern[0])" class="thead">
-                            {{ pattern[1] }}
-                          <span class="icon-arrow">
-                          <img src="@/assets/triangle.svg" class="triangle"
+    <section class="table__header">
+      <img src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png" alt="">
+    </section>
+    <section class="table__body">
+      <table v-if="list.length">
+        <thead>
+        <tr>
+          <th/>
+          <th v-for="pattern of listPattern" :key="pattern.id" @click="sortedByList(pattern[0])" class="thead">
+            {{ pattern[1] }}
+
+            <span class="icon-arrow">
+                          <img src="@/assets/img/triangle.svg" class="triangle"
                                :class="pattern[0] === sortedBy ? 'triangle__selected' : '' ">
-                          <img src="@/assets/triangle.svg" class="triangle"
+                          <img src="@/assets/img/triangle.svg" class="triangle"
                                :class="pattern[0] === sortedBy.split('').reverse().join('') ? 'triangle__selected' : '' ">
                           </span>
-                        </th>
-                        <th/>
-                        <th/>
-                    </tr>
-                </thead>
-<!--                <tbody>-->
-                <transition-group name="list" tag="tbody">
-                  <tr v-for="staff of list" :key="staff.id">
-                    <td><input type="checkbox"></td>
-                    <td>{{staff.firstName}}</td>
-                    <td>{{staff.lastName}}</td>
-                    <td>{{staff.middleName}}</td>
-                    <td>{{staff.birthDate}}</td>
-                    <td>{{staff.description}}</td>
-                    <td><img src="@/assets/edit.svg" alt="pen for edit"></td>
-                    <td  @click="deleteStaff(staff.id)"><img src="@/assets/delete.svg" alt="basket for delete"></td>
-                  </tr>
-                </transition-group>
-<!--                </tbody>-->
-            </table>
-          <div v-else>Добавьте данные</div>
-        </section>
-    </main>
+          </th>
+          <th/>
+          <th/>
+        </tr>
+        </thead>
+        <table-row :list="list" @deleteStaff="deleteStaff"/>
+      </table>
+      <div v-else>Добавьте данные</div>
+    </section>
+  </main>
 </template>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: sans-serif;
-}
 
-body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-main.table {
-    width: 82vw;
-    height: 90vh;
-    background-color: #fff5;
-    backdrop-filter: blur(7px);
-    box-shadow: 0 .4rem .8rem #0005;
-    border-radius: .8rem;
-    overflow: hidden;
+.table {
+  width: 82vw;
+  height: 90vh;
+  background-color: #fff5;
+  box-shadow: 0 .4rem .8rem #0005;
+  border-radius: .8rem;
+  overflow: hidden;
 }
 
 .table__header {
-    width: 100%;
-    height: 10%;
-    background-color: #fff4;
-    padding: .8rem 1rem;
+  width: 100%;
+  height: 10%;
+  background-color: #fff4;
+  padding: .8rem 1rem;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.table__header .input-group {
-    width: 35%;
-    height: 100%;
-    background-color: #fff5;
-    padding: 0 .8rem;
-    border-radius: 2rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    transition: .2s;
-}
-
-
-.table__header .input-group img {
-    width: 1.2rem;
-    height: 1.2rem;
-}
-
-.table__header .input-group input {
-    width: 100%;
-    padding: 0 .5rem 0 .3rem;
-    background-color: transparent;
-    border: none;
-    outline: none;
-}
 
 .table__body {
-    width: 95%;
-    max-height: calc(89% - 1.6rem);
-    background-color: #fffb;
+  width: 95%;
+  max-height: calc(89% - 1.6rem);
+  background-color: #fffb;
 
-    margin: .8rem auto;
-    border-radius: .6rem;
+  margin: .8rem auto;
+  border-radius: .6rem;
 
-    overflow: auto;
-    /*overflow: overlay;*/
+  overflow: auto;
 }
 
-.table__body::-webkit-scrollbar{
-    width: 0.5rem;
-    height: 0.5rem;
+.table__body::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
-.table__body::-webkit-scrollbar-thumb{
-    border-radius: .5rem;
-    background-color: #0004;
-    visibility: hidden;
+.table__body::-webkit-scrollbar-thumb {
+  border-radius: .5rem;
+  background-color: #0004;
+  visibility: hidden;
 }
 
-.table__body:hover::-webkit-scrollbar-thumb{
-    visibility: visible;
+.table__body:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
 }
 
 table {
-    width: 100%;
+  width: 100%;
 }
 
-td img {
-    width: 36px;
-    height: 36px;
-    margin-right: .5rem;
-    border-radius: 50%;
-
-    vertical-align: middle;
-}
 
 table, th, td {
-    border-collapse: collapse;
-    padding: 1rem;
-    text-align: left;
+  border-collapse: collapse;
+  padding: 1rem;
+  text-align: left;
 }
 
-thead th {
-    position: sticky;
-    top: 0;
-    left: 0;
-    background-color: #d5d1defe;
-    cursor: pointer;
-    text-transform: capitalize;
+th {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: #d5d1defe;
+  cursor: pointer;
+  text-transform: capitalize;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #0000000b;
+tr:nth-child(even) {
+  background-color: #0000000b;
 }
 
-tbody tr {
-    --delay: .1s;
-    /*transition: .5s ease-in-out var(--delay), background-color 0s;*/
-}
-
-tbody tr.hide {
-    opacity: 0;
-    transform: translateX(100%);
-}
-
-
-
-tbody tr td,
-tbody tr td p,
-tbody tr td img {
-    transition: .2s ease-in-out;
-}
-
-tbody tr.hide td,
-tbody tr.hide td p {
-    padding: 0;
-    /*font: 0 / 0 sans-serif;*/
-    transition: .2s ease-in-out .5s;
+tr {
+  --delay: .1s;
 }
 
 tbody tr.hide td img {
-    width: 0;
-    height: 0;
-    transition: .2s ease-in-out .5s;
-}
-
-.status {
-    padding: .4rem 0;
-    border-radius: 2rem;
-    text-align: center;
-}
-
-.status.delivered {
-    background-color: #86e49d;
-    color: #006b21;
-}
-
-.status.cancelled {
-    background-color: #d893a3;
-    color: #b30021;
-}
-
-.status.pending {
-    background-color: #ebc474;
-}
-
-.status.shipped {
-    background-color: #6fcaea;
+  width: 0;
+  height: 0;
+  transition: .2s ease-in-out .5s;
 }
 
 
 @media (max-width: 1000px) {
-    td:not(:first-of-type) {
-        min-width: 12.1rem;
-    }
+  td:not(:first-of-type) {
+    min-width: 12.1rem;
+  }
 }
-
-
-
-
 
 th:hover {
-    color: #003fff;
+  color: #003fff;
 }
 
-
-
-
-
-
-
-.thead {
-  /*align-items: center;*/
-}
 .icon-arrow {
+  display: inline-block;
+  width: 1.3rem;
+  height: 0.9rem;
   position: relative;
 }
+
 .triangle {
   position: absolute;
   left: 10px;
 }
+
 .triangle:first-child {
   top: 4px;
-
 }
-.triangle:last-child{
+
+.triangle:last-child {
   transform: rotate(180deg);
   top: 10px;
 }
@@ -312,6 +238,7 @@ th:hover {
 .triangle__selected {
   filter: invert(5) hue-rotate(300deg);
 }
+
 .list-item {
   display: inline-block;
   display: block;
