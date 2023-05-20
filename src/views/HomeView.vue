@@ -5,11 +5,11 @@
     data(): HomeViewI {
       return {
         list: [
-          {id:1,firstName:"zlex", lastName:"Sergio",middleName:null,birthDate:Date.now()+"",description:"Работяга"},
-          {id:2,firstName:"blex", lastName:"Sergio",middleName:null,birthDate:Date.now()+"",description:"Работяга"},
-          {id:3,firstName:"clex", lastName:"Sergio",middleName:"fuck",birthDate:Date.now()+"",description:"Работяга"},
-          {id:4,firstName:"dlex", lastName:"Sergio",middleName:"fuck",birthDate:Date.now()+"",description:"Работяга"},
-          {id:5,firstName:"elex", lastName:"Sergio",middleName:"fuck",birthDate:Date.now()+"",description:"Работяга"},
+          {id:1,firstName:"zlex", lastName:"Володя",middleName:null,birthDate:new Date(Date.now()).toISOString(),description:"Работяга"},
+          {id:2,firstName:"blex", lastName:"Алерго",middleName:null,birthDate:Date.now()+"",description:"НеРаботяга"},
+          {id:3,firstName:"clex", lastName:"Лерго",middleName:"Лемур",birthDate:Date.now()+"",description:"разраб"},
+          {id:4,firstName:"dlex", lastName:"Сюрелиант",middleName:"Авокадо",birthDate:Date.now()+"",description:"айтишник"},
+          {id:5,firstName:"elex", lastName:"Sergio",middleName:"Суслик",birthDate:Date.now()+"",description:"дизайнер"},
         ],
         listPattern:[
           ["firstName", "Фамилия",'1'],
@@ -23,16 +23,27 @@
       }
     },
     methods:{
-      deleteStaff(list:StaffI) {
-        // this.list.filter((staff) =>staff.id !== id);
+        sortedByList(pattern:string) {
+        if(pattern === this.sortedBy) {
+          this.list.sort((staff1, staff2): number => {
+            const value1 = String(staff1[pattern as keyof StaffI]);
+            const value2 = String(staff2[pattern as keyof StaffI]);
+            return value2.localeCompare(value1);
+          });
+          this.sortedBy = pattern.split("").reverse().join("");
+        } else {
+          this.list.sort((staff1, staff2): number => {
+            const value1 = String(staff1[pattern as keyof StaffI]);
+            const value2 = String(staff2[pattern as keyof StaffI]);
+            return value1.localeCompare(value2);
+          });
+          this.sortedBy = pattern;
+        }
+      },
+      deleteStaff(id:number) {
+        this.list= this.list.filter((staff) => staff.id !== id);
       }
     },
-    watch:{
-      sortedBy() {
-        this.list.sort((staff1:StaffI,staff2:StaffI) =>
-            staff1[this.sortedBy]?.localeCompare(staff2[this.sortedBy]))
-      }
-    }
   })
 </script>
 
@@ -46,8 +57,14 @@
                 <thead>
                     <tr>
                         <th/>
-                        <th v-for="pattern of listPattern" :key="pattern.id" @click="sortedBy = pattern[0]">
-                          {{ pattern[1] }} <span class="icon-arrow">&UpArrow;</span>
+                        <th v-for="pattern of listPattern" :key="pattern.id" @click="sortedByList(pattern[0])" class="thead">
+                            {{ pattern[1] }}
+                          <span class="icon-arrow">
+                          <img src="@/assets/triangle.svg" class="triangle"
+                               :class="pattern[0] === sortedBy ? 'triangle__selected' : '' ">
+                          <img src="@/assets/triangle.svg" class="triangle"
+                               :class="pattern[0] === sortedBy.split('').reverse().join('') ? 'triangle__selected' : '' ">
+                          </span>
                         </th>
                         <th/>
                         <th/>
@@ -62,7 +79,7 @@
                     <td>{{staff.birthDate}}</td>
                     <td>{{staff.description}}</td>
                     <td><img src="@/assets/edit.svg" alt="pen for edit"></td>
-                    <td  @click="deleteStaff"><img src="@/assets/delete.svg" alt="basket for delete"></td>
+                    <td  @click="deleteStaff(staff.id)"><img src="@/assets/delete.svg" alt="basket for delete"></td>
                   </tr>
                 </tbody>
             </table>
@@ -80,7 +97,6 @@
 
 body {
     min-height: 100vh;
-    /* background: url(images/html_table.jpg) center / cover; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,11 +106,9 @@ main.table {
     width: 82vw;
     height: 90vh;
     background-color: #fff5;
-
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
     border-radius: .8rem;
-
     overflow: hidden;
 }
 
@@ -260,39 +274,18 @@ tbody tr.hide td img {
     }
 }
 
-thead th span.icon-arrow {
-    display: inline-block;
-    width: 1.3rem;
-    height: 1.3rem;
-    border-radius: 50%;
-    border: 1.4px solid transparent;
-    text-align: center;
-    font-size: 1rem;
-    margin-left: .5rem;
-    transition: .2s ease-in-out;
-}
 
-thead th:hover span.icon-arrow{
-    transition: all .1s;
-    transform: rotate(360deg);
-}
+
+
 
 thead th:hover {
     color: #2B2F3B;
 }
 
-thead th.active span.icon-arrow{
-    background-color: #2B2F3B;
-    color: #fff;
-}
 
-thead th.asc span.icon-arrow{
-    transform: rotate(180deg);
-}
 
-thead th.active,tbody td.active {
-    color: #2B2F3B;
-}
+
+
 
 .export__file {
     position: relative;
@@ -342,11 +335,9 @@ thead th.active,tbody td.active {
 }
 
 .export__file .export__file-options label{
-    display: block;
     width: 100%;
     padding: .6rem 0;
     background-color: #f2f2f2;
-
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -370,4 +361,26 @@ thead th.active,tbody td.active {
     height: auto;
 }
 
+.thead {
+  /*align-items: center;*/
+}
+.icon-arrow {
+  position: relative;
+}
+.triangle {
+  position: absolute;
+  left: 10px;
+}
+.triangle:first-child {
+  top: 4px;
+
+}
+.triangle:last-child{
+  transform: rotate(180deg);
+  top: 10px;
+}
+
+.triangle__selected {
+  filter: invert(5) hue-rotate(300deg);
+}
 </style>

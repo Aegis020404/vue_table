@@ -10,6 +10,7 @@ export interface StaffI {
 }
 export interface HomeViewI {
     list:StaffI[],
+
     sortedBy:string,
     listPattern:Array<Array<string>>
 }
