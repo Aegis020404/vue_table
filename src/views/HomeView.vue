@@ -53,7 +53,7 @@
         <section class="table__header">
         </section>
         <section class="table__body">
-            <table>
+            <table v-if="list.length">
                 <thead>
                     <tr>
                         <th/>
@@ -70,7 +70,8 @@
                         <th/>
                     </tr>
                 </thead>
-                <tbody>
+<!--                <tbody>-->
+                <transition-group name="list" tag="tbody">
                   <tr v-for="staff of list" :key="staff.id">
                     <td><input type="checkbox"></td>
                     <td>{{staff.firstName}}</td>
@@ -81,8 +82,10 @@
                     <td><img src="@/assets/edit.svg" alt="pen for edit"></td>
                     <td  @click="deleteStaff(staff.id)"><img src="@/assets/delete.svg" alt="basket for delete"></td>
                   </tr>
-                </tbody>
+                </transition-group>
+<!--                </tbody>-->
             </table>
+          <div v-else>Добавьте данные</div>
         </section>
     </main>
 </template>
@@ -382,5 +385,24 @@ thead th:hover {
 
 .triangle__selected {
   filter: invert(5) hue-rotate(300deg);
+}
+.list-item {
+  display: inline-block;
+  display: block;
+  width: 30%;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #BBDEFB;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
