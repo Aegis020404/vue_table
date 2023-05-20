@@ -7,7 +7,5 @@
 </template>
 
 <style>
-*{
-  box-sizing:bor
-}
+
 </style>
