@@ -13,9 +13,12 @@ body {
     justify-content: center;
     align-items: center;
 }
-table,th {
+table {
     background-color: #2B2F3B;
-
+}
+th {
+    background: #333742;
+    
 }
 table, th, td {
     border-collapse: collapse;
