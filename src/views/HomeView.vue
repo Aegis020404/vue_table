@@ -7,51 +7,9 @@ export default defineComponent({
   components:{
     TableRow
   },
-  data(): HomeViewI {
+  data() {
     return {
 
-      list: [
-        {
-          id: 1,
-          firstName: "zlex",
-          lastName: "Володя",
-          middleName: null,
-          birthDate: new Date(Date.now()).toISOString(),
-          description: "Работяга"
-        },
-        {
-          id: 2,
-          firstName: "blex",
-          lastName: "Алерго",
-          middleName: null,
-          birthDate: Date.now() + "",
-          description: "НеРаботяга"
-        },
-        {
-          id: 3,
-          firstName: "clex",
-          lastName: "Лерго",
-          middleName: "Лемур",
-          birthDate: Date.now() + "",
-          description: "разраб"
-        },
-        {
-          id: 4,
-          firstName: "dlex",
-          lastName: "Сюрелиант",
-          middleName: "Авокадо",
-          birthDate: Date.now() + "",
-          description: "айтишник"
-        },
-        {
-          id: 5,
-          firstName: "elex",
-          lastName: "Sergio",
-          middleName: "Суслик",
-          birthDate: Date.now() + "",
-          description: "дизайнер"
-        },
-      ],
       listPattern: [
         ["firstName", "Фамилия", '1'],
         ["lastName", "Имя", '2'],
@@ -59,32 +17,9 @@ export default defineComponent({
         ["birthDate", "Дата рождения", '4'],
         ["description", "Описание", '5']
       ]
-      ,
-      sortedBy: '',
     }
   },
-  methods: {
-    sortedByList(pattern: string) {
-      if (pattern === this.sortedBy) {
-        this.list.sort((staff1, staff2): number => {
-          const value1 = String(staff1[pattern as keyof StaffI]);
-          const value2 = String(staff2[pattern as keyof StaffI]);
-          return value2.localeCompare(value1);
-        });
-        this.sortedBy = pattern.split("").reverse().join("");
-      } else {
-        this.list.sort((staff1, staff2): number => {
-          const value1 = String(staff1[pattern as keyof StaffI]);
-          const value2 = String(staff2[pattern as keyof StaffI]);
-          return value1.localeCompare(value2);
-        });
-        this.sortedBy = pattern;
-      }
-    },
-    deleteStaff(id: number) {
-      this.list = this.list.filter((staff) => staff.id !== id);
-    }
-  },
+
 })
 </script>
 
@@ -95,25 +30,24 @@ export default defineComponent({
       <img src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png" alt="">
     </section>
     <section class="table__body">
-      <table v-if="list.length">
+      <table v-if="$store.state.employess.list.length">
         <thead>
         <tr>
           <th/>
-          <th v-for="pattern of listPattern" :key="pattern.id" @click="sortedByList(pattern[0])" class="thead">
+          <th v-for="pattern of listPattern" :key="pattern.id" @click="$store.commit('sortedByList',pattern[0])" class="thead">
             {{ pattern[1] }}
-
             <span class="icon-arrow">
                           <img src="@/assets/img/triangle.svg" class="triangle"
-                               :class="pattern[0] === sortedBy ? 'triangle__selected' : '' ">
+                               :class="pattern[0] === $store.state.employess.sortedBy ? 'triangle__selected' : '' ">
                           <img src="@/assets/img/triangle.svg" class="triangle"
-                               :class="pattern[0] === sortedBy.split('').reverse().join('') ? 'triangle__selected' : '' ">
+                               :class="pattern[0] === $store.state.employess.sortedBy.split('').reverse().join('') ? 'triangle__selected' : '' ">
                           </span>
           </th>
           <th/>
           <th/>
         </tr>
         </thead>
-        <table-row :list="list" @deleteStaff="deleteStaff"/>
+        <table-row :list="$store.state.employess.list" @deleteStaff="deleteStaff"/>
       </table>
       <div v-else>Добавьте данные</div>
     </section>
@@ -239,23 +173,5 @@ th:hover {
   filter: invert(5) hue-rotate(300deg);
 }
 
-.list-item {
-  display: inline-block;
-  display: block;
-  width: 30%;
-  position: relative;
-  overflow: hidden;
-  border: 3px solid #BBDEFB;
-}
 
-.list-enter-active,
-.list-leave-active {
-  transition: all 1s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
-}
 </style>
