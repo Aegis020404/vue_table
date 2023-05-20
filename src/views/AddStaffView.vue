@@ -12,6 +12,8 @@
     <button @click="{
       let staff = addStaff();
       $store.commit('addStaff', staff);
+      $router.push('/');
+
       }" class="btn">Отправить</button>
   </div>
 </template>

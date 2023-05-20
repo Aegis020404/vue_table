@@ -5,5 +5,6 @@ export const initialState = {
     employess: {
         list,
         sortedBy:'',
+        pag:1
     },
 };

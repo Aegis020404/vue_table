@@ -5,11 +5,13 @@
       <td class="td"><input type="checkbox"></td>
       <td class="td">{{ staff.firstName }}</td>
       <td class="td">{{ staff.lastName }}</td>
-      
+
       <td class="td">{{ staff.middleName }}</td>
       <td class="td">{{ staff.birthDate }}</td>
       <td class="td">{{ staff.description }}</td>
-      <td class="td"><img src="@/assets/img/edit.svg" alt="pen for edit"></td>
+      <td class="td">
+        <img @click="$router.push('/edit_staff/'+staff.id)" src="@/assets/img/edit.svg" alt="pen for edit">
+      </td>
       <td class="td deleteBtn"  @click="$emit('turnOnModalDeleting',staff.id)">
         <img src="@/assets/img/delete.svg"  alt="basket for delete">
       </td>

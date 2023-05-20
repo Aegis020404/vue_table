@@ -3,7 +3,10 @@
       <div class="dialog__content" @click.stop>
         <div class="title">Запись будет удалена. Уверены?</div>
         <div class="btns">
-          <button class="btn delete"  @click="{deleteStaff(id);hideDialog();}">Ок</button>
+          <button class="btn delete"
+           @keydown.enter="{deleteStaff(id);hideDialog();}"
+           @click="{deleteStaff(id);hideDialog();}"
+           >Ок</button>
           <button class="btn cancel" @click="hideDialog">Отмена</button>
         </div>
       </div>
