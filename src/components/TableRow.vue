@@ -1,4 +1,5 @@
 <template>
+
   <transition-group name="list" tag="tbody">
     <tr class="tr" v-for="staff of $store.state.employess.list" :key="staff.id">
       <td class="td"><input type="checkbox"></td>
@@ -9,7 +10,8 @@
       <td class="td">{{ staff.description }}</td>
       <td class="td"><img src="@/assets/img/edit.svg" alt="pen for edit"></td>
       <!-- <td class="td" @click=" $store.commit('deleteStaff',staff.id)   "> -->
-      <td class="td deleteBtn"  @click="deleteStaff(staff.id)">
+      <!-- <td class="td deleteBtn"  @click="deleteStaff(staff.id)"> -->
+      <td class="td deleteBtn"  @click="$emit('turnOnModalDeleting',staff.id)">
         <img src="@/assets/img/delete.svg"  alt="basket for delete">
       </td>
     </tr>
@@ -52,6 +54,7 @@ export default defineComponent({
 } */
 
 tr:nth-child(even) {
+  transition: all 1s  ,background .3s ease;
   background: #333742;
 }
 

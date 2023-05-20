@@ -22,7 +22,7 @@ export const store = createStore({
     mutations: { ...moduleEmployess.mutations},
     getters: { ...moduleEmployess.getters },
     actions: { ...moduleEmployess.actions },
-    plugins,
+    plugins, 
 });
 
 type MutationPayload = moduleEmployess.MutationPayload

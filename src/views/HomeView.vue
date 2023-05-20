@@ -2,10 +2,11 @@
 import {defineComponent} from 'vue'
 import {HomeViewI, StaffI} from '@/models'
 import TableRow from '../components/TableRow.vue'
+import ModalConfirmDelete from '../components/UI/ModalConfirmDelete.vue'
 
 export default defineComponent({
   components:{
-    TableRow
+    TableRow,ModalConfirmDelete
   },
   data() {
     return {
@@ -15,9 +16,19 @@ export default defineComponent({
         ["middleName", "Отчество", '3'],
         ["birthDate", "Дата рождения", '4'],
         ["description", "Описание", '5']
-      ]
+      ],
+      id_deleting:NaN,
     }
   },
+    methods: {
+      turnOnModalDeleting(id:number) {
+        console.log(id)
+        this.id_deleting = id;
+      },
+      hideDialog() {
+        this.id_deleting = NaN;
+      }
+    }
 
 })
 </script>
@@ -25,6 +36,7 @@ export default defineComponent({
 
 <template>
   <main class="table">
+    <modal-confirm-delete :show="!isNaN(id_deleting)" :id="id_deleting" @hideDialog="hideDialog"/>
     <section class="table__header">
       <img src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png" alt="">
       <router-link to="/add_staff">Добавить пользователя</router-link>
@@ -47,7 +59,7 @@ export default defineComponent({
           <th/>
         </tr>
         </thead>
-        <table-row  />
+        <table-row @turnOnModalDeleting="turnOnModalDeleting" />
       </table>
       <div v-else>Добавьте данные</div>
     </section>
@@ -104,6 +116,7 @@ th {
 }
 
 .table__body:hover::-webkit-scrollbar-thumb {
+  background: w;
   visibility: visible;
 }
 
