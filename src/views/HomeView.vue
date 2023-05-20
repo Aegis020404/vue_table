@@ -9,7 +9,6 @@ export default defineComponent({
   },
   data() {
     return {
-
       listPattern: [
         ["firstName", "Фамилия", '1'],
         ["lastName", "Имя", '2'],
@@ -47,14 +46,14 @@ export default defineComponent({
           <th/>
         </tr>
         </thead>
-        <table-row :list="$store.state.employess.list" @deleteStaff="deleteStaff"/>
+        <table-row  />
       </table>
       <div v-else>Добавьте данные</div>
     </section>
   </main>
 </template>
 
-<style>
+<style scoped>
 
 .table {
   width: 82vw;
@@ -108,11 +107,6 @@ table {
 }
 
 
-table, th, td {
-  border-collapse: collapse;
-  padding: 1rem;
-  text-align: left;
-}
 
 th {
   position: sticky;
@@ -127,9 +121,7 @@ tr:nth-child(even) {
   background-color: #0000000b;
 }
 
-tr {
-  --delay: .1s;
-}
+
 
 tbody tr.hide td img {
   width: 0;
