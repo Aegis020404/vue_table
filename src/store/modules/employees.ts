@@ -15,18 +15,19 @@ export type MutationPayload = {
 
 export const mutations: MutationTree<State> & Mutations = {
     deleteStaff({employess},payload) {
-        employess.list = employess.list.filter((staff) => staff.id !== payload);
+        employess.list = employess.list.filter((staff:StaffI) => staff.id !== payload);
+        localStorage.setItem("list",JSON.stringify(employess.list));
     },
     sortedByList({employess},pattern) {
         if (pattern === employess.sortedBy) {
-            employess.list.sort((staff1, staff2): number => {
+            employess.list.sort((staff1:StaffI, staff2:StaffI): number => {
                 const value1 = String(staff1[pattern as keyof StaffI]);
                 const value2 = String(staff2[pattern as keyof StaffI]);
                 return value2.localeCompare(value1);
             });
             employess.sortedBy = pattern.split("").reverse().join("");
         } else {
-            employess.list.sort((staff1, staff2): number => {
+            employess.list.sort((staff1:StaffI, staff2:StaffI): number => {
                 const value1 = String(staff1[pattern as keyof StaffI]);
                 const value2 = String(staff2[pattern as keyof StaffI]);
                 return value1.localeCompare(value2);
@@ -36,6 +37,8 @@ export const mutations: MutationTree<State> & Mutations = {
     },
     addStaff({employess},payload) {
         employess.list.push(payload)
+        localStorage.setItem("list",JSON.stringify(employess.list));
+
     }
 };
 
