@@ -12,6 +12,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: radial-gradient(circle,
+     #3d3d3d, #383838, #343434, #2f2f2f, #2b2b2b, #262626,
+      #222222, #1d1d1d, #181818, #121212, #0a0a0a, #000000);
 }
 table {
     background-color: #2B2F3B;

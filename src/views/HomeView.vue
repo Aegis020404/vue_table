@@ -27,7 +27,7 @@ export default defineComponent({
       },
       hideDialog() {
         this.id_deleting = NaN;
-      }
+      },
     }
 
 })

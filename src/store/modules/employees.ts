@@ -44,10 +44,14 @@ export const mutations: MutationTree<State> & Mutations = {
     editStaff({ employess }, payload) {
         employess.list = employess.list.map(
             (staff: StaffI) => staff.id === payload.id ? payload : staff);
-
         localStorage.setItem("list", JSON.stringify(employess.list));
-
-    }
+    },
+    nextPage({ employess }){
+        employess.pag++;
+     },
+     prevPage({ employess }){
+        employess.pag--;
+     }
 };
 
 /*
