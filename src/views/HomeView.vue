@@ -1,16 +1,36 @@
 <script lang="ts">
   import {defineComponent} from 'vue'
-  import {HomeViewI} from '@/models'
+  import {HomeViewI,StaffI} from '@/models'
   export default defineComponent({
     data(): HomeViewI {
       return {
         list: [
-          {firstName:"Alex", lastName:"Sergio",middleName:null,birthDate:Date.now(),description:"Работяга"},
-          {firstName:"Alex", lastName:"Sergio",middleName:null,birthDate:Date.now(),description:"Работяга"},
-          {firstName:"Alex", lastName:"Sergio",middleName:null,birthDate:Date.now(),description:"Работяга"},
-          {firstName:"Alex", lastName:"Sergio",middleName:null,birthDate:Date.now(),description:"Работяга"},
-          {firstName:"Alex", lastName:"Sergio",middleName:null,birthDate:Date.now(),description:"Работяга"},
-        ]
+          {id:1,firstName:"zlex", lastName:"Sergio",middleName:null,birthDate:Date.now()+"",description:"Работяга"},
+          {id:2,firstName:"blex", lastName:"Sergio",middleName:null,birthDate:Date.now()+"",description:"Работяга"},
+          {id:3,firstName:"clex", lastName:"Sergio",middleName:"fuck",birthDate:Date.now()+"",description:"Работяга"},
+          {id:4,firstName:"dlex", lastName:"Sergio",middleName:"fuck",birthDate:Date.now()+"",description:"Работяга"},
+          {id:5,firstName:"elex", lastName:"Sergio",middleName:"fuck",birthDate:Date.now()+"",description:"Работяга"},
+        ],
+        listPattern:[
+          ["firstName", "Фамилия",'1'],
+          ["lastName", "Имя",'2'],
+          ["middleName", "Отчество",'3'],
+          ["birthDate", "Дата рождения",'4'],
+          ["description", "Описание",'5']
+    ]
+        ,
+        sortedBy: '',
+      }
+    },
+    methods:{
+      deleteStaff(list:StaffI) {
+        // this.list.filter((staff) =>staff.id !== id);
+      }
+    },
+    watch:{
+      sortedBy() {
+        this.list.sort((staff1:StaffI,staff2:StaffI) =>
+            staff1[this.sortedBy]?.localeCompare(staff2[this.sortedBy]))
       }
     }
   })
@@ -20,44 +40,29 @@
 <template>
   <main class="table">
         <section class="table__header">
-            <h1>Customer's Orders</h1>
-            <div class="input-group">
-                <input type="search" placeholder="Search Data...">
-                <!-- <img src="images/search.png" alt=""> -->
-            </div>
-            <div class="export__file">
-                <label for="export-file" class="export__file-btn" title="Export File"></label>
-                <input type="checkbox" id="export-file">
-                <div class="export__file-options">
-                    <label>Export As &nbsp; &#10140;</label>
-                    <!-- <label for="export-file" id="toPDF">PDF <img src="images/pdf.png" alt=""></label>
-                    <label for="export-file" id="toJSON">JSON <img src="images/json.png" alt=""></label>
-                    <label for="export-file" id="toCSV">CSV <img src="images/csv.png" alt=""></label>
-                    <label for="export-file" id="toEXCEL">EXCEL <img src="images/excel.png" alt=""></label> -->
-                </div>
-            </div>
         </section>
         <section class="table__body">
             <table>
                 <thead>
                     <tr>
-                        <th> Id <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Фамилия <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Имя <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Отчество <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Дата рождения <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Описание <span class="icon-arrow">&UpArrow;</span></th>
-                        <th>  </th>
+                        <th/>
+                        <th v-for="pattern of listPattern" :key="pattern.id" @click="sortedBy = pattern[0]">
+                          {{ pattern[1] }} <span class="icon-arrow">&UpArrow;</span>
+                        </th>
+                        <th/>
+                        <th/>
                     </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="staff of list">
-                    <td>{{staff.firstName}}</td>
+                  <tr v-for="staff of list" :key="staff.id">
+                    <td><input type="checkbox"></td>
                     <td>{{staff.firstName}}</td>
                     <td>{{staff.lastName}}</td>
                     <td>{{staff.middleName}}</td>
                     <td>{{staff.birthDate}}</td>
                     <td>{{staff.description}}</td>
+                    <td><img src="@/assets/edit.svg" alt="pen for edit"></td>
+                    <td  @click="deleteStaff"><img src="@/assets/delete.svg" alt="basket for delete"></td>
                   </tr>
                 </tbody>
             </table>
@@ -66,21 +71,9 @@
 </template>
 
 <style>
-/*
-Responsive HTML Table With Pure CSS - Web Design/UI Design
-
-Code written by:
-👨🏻‍⚕️ Coding Design (Jeet Saru)
-
-> You can do whatever you want with the code. However if you love my content, you can **SUBSCRIBED** my YouTube Channel.
-
-🌎link: www.youtube.com/codingdesign 
-*/
-
 * {
     margin: 0;
     padding: 0;
-
     box-sizing: border-box;
     font-family: sans-serif;
 }
@@ -130,11 +123,6 @@ main.table {
     transition: .2s;
 }
 
-.table__header .input-group:hover {
-    width: 45%;
-    background-color: #fff8;
-    box-shadow: 0 .1rem .4rem #0002;
-}
 
 .table__header .input-group img {
     width: 1.2rem;
@@ -172,7 +160,7 @@ main.table {
     visibility: hidden;
 }
 
-.table__body:hover::-webkit-scrollbar-thumb{ 
+.table__body:hover::-webkit-scrollbar-thumb{
     visibility: visible;
 }
 
@@ -285,15 +273,16 @@ thead th span.icon-arrow {
 }
 
 thead th:hover span.icon-arrow{
-    border: 1.4px solid #6c00bd;
+    transition: all .1s;
+    transform: rotate(360deg);
 }
 
 thead th:hover {
-    color: #6c00bd;
+    color: #2B2F3B;
 }
 
 thead th.active span.icon-arrow{
-    background-color: #6c00bd;
+    background-color: #2B2F3B;
     color: #fff;
 }
 
@@ -302,7 +291,7 @@ thead th.asc span.icon-arrow{
 }
 
 thead th.active,tbody td.active {
-    color: #6c00bd;
+    color: #2B2F3B;
 }
 
 .export__file {
@@ -318,7 +307,7 @@ thead th.active,tbody td.active {
     transition: .2s ease-in-out;
 }
 
-.export__file .export__file-btn:hover { 
+.export__file .export__file-btn:hover {
     background-color: #fff;
     transform: scale(1.15);
     cursor: pointer;
@@ -331,7 +320,7 @@ thead th.active,tbody td.active {
 .export__file .export__file-options {
     position: absolute;
     right: 0;
-    
+
     width: 12rem;
     border-radius: .5rem;
     overflow: hidden;
@@ -340,9 +329,9 @@ thead th.active,tbody td.active {
     opacity: 0;
     transform: scale(.8);
     transform-origin: top right;
-    
+
     box-shadow: 0 .2rem .5rem #0004;
-    
+
     transition: .2s;
 }
 
@@ -357,7 +346,7 @@ thead th.active,tbody td.active {
     width: 100%;
     padding: .6rem 0;
     background-color: #f2f2f2;
-    
+
     display: flex;
     justify-content: space-around;
     align-items: center;

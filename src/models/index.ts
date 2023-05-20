@@ -1,14 +1,17 @@
 
 
-export interface ListI {
+export interface StaffI {
     firstName: string;
     lastName: string;
     middleName: string | null;
     birthDate: string; // ISO Format, e.g. 1986-12-08
     description: string | null;
+    id:number
 }
 export interface HomeViewI {
-    list:ListI[],
+    list:StaffI[],
+    sortedBy:string,
+    listPattern:Array<Array<string>>
 }
 
 // a. Фамилия
