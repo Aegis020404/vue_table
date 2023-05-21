@@ -1,85 +1,118 @@
 <script lang="ts">
-import {defineComponent} from 'vue'
-import {HomeViewI, StaffI} from '@/models'
-import TableRow from '../components/TableRow.vue'
-import ModalConfirmDelete from '../components/UI/ModalConfirmDelete.vue'
+import { defineComponent } from "vue";
+import { HomeViewI, StaffI } from "@/models";
+import TableRow from "../components/TableRow.vue";
+import ModalConfirmDelete from "../components/UI/ModalConfirmDelete.vue";
+import { useStore } from "vuex";
+import { ComponentPublicInstance } from "vue";
 
 export default defineComponent({
-  components:{
-    TableRow,ModalConfirmDelete
+  components: {
+    TableRow,
+    ModalConfirmDelete,
   },
   data() {
     return {
       listPattern: [
-        ["firstName", "Фамилия", '1'],
-        ["lastName", "Имя", '2'],
-        ["middleName", "Отчество", '3'],
-        ["birthDate", "Дата рождения", '4'],
-        ["description", "Описание", '5']
+        ["firstName", "Фамилия", "1"],
+        ["lastName", "Имя", "2"],
+        ["middleName", "Отчество", "3"],
+        ["birthDate", "Дата рождения", "4"],
+        ["description", "Описание", "5"],
       ],
-      id_deleting:NaN,
-    }
+      id_deleting: NaN,
+      pag: 1,
+    };
   },
-    methods: {
-      turnOnModalDeleting(id:number) {
-        console.log(id)
-        this.id_deleting = id;
-      },
-      hideDialog() {
-        this.id_deleting = NaN;
-      },
-    }
+  methods: {
+    turnOnModalDeleting(id: number) {
+      console.log(id);
+      this.id_deleting = id;
+    },
+    hideDialog() {
+      this.id_deleting = NaN;
+    },
+  },
 
-})
+});
 </script>
 
 
 <template>
   <main class="table">
-    <modal-confirm-delete :show="!isNaN(id_deleting)" :id="id_deleting" @hideDialog="hideDialog"/>
+    <modal-confirm-delete
+      :show="!isNaN(id_deleting)"
+      :id="id_deleting"
+      @hideDialog="hideDialog"
+    />
     <section class="table__header">
-      <img src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png" alt="">
+      <img
+        src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png"
+        alt=""
+      />
       <router-link to="/add_staff">Добавить пользователя</router-link>
     </section>
     <section class="table__body">
       <table v-if="$store.state.employess.list.length">
         <thead>
-        <tr>
-          <th/>
-          <th v-for="pattern of listPattern" :key="pattern.id" @click="$store.commit('sortedByList',pattern[0])" class="thead">
-            {{ pattern[1] }}
-            <span class="icon-arrow">
-                          <img src="@/assets/img/triangle.svg" class="triangle"
-                               :class="pattern[0] === $store.state.employess.sortedBy ? 'triangle__selected' : '' ">
-                          <img src="@/assets/img/triangle.svg" class="triangle"
-                               :class="pattern[0] === $store.state.employess.sortedBy.split('').reverse().join('') ? 'triangle__selected' : '' ">
-                          </span>
-          </th>
-          <th/>
-          <th/>
-        </tr>
+          <tr>
+            <th />
+            <th
+              v-for="pattern of listPattern"
+              :key="pattern.id"
+              @click="$store.commit('sortedByList', pattern[0])"
+              class="thead"
+            >
+              {{ pattern[1] }}
+              <span class="icon-arrow">
+                <img
+                  src="@/assets/img/triangle.svg"
+                  class="triangle"
+                  :class="
+                    pattern[0] === $store.state.employess.sortedBy
+                      ? 'triangle__selected'
+                      : ''
+                  "
+                />
+                <img
+                  src="@/assets/img/triangle.svg"
+                  class="triangle"
+                  :class="
+                    pattern[0] ===
+                    $store.state.employess.sortedBy.split('').reverse().join('')
+                      ? 'triangle__selected'
+                      : ''
+                  "
+                />
+              </span>
+            </th>
+            <th />
+            <th />
+          </tr>
         </thead>
-        <table-row @turnOnModalDeleting="turnOnModalDeleting" />
+        <table-row @turnOnModalDeleting="turnOnModalDeleting" :pag="pag" />
       </table>
       <div v-else>Добавьте данные</div>
+      <div>Pagination {{ pag }}</div>
+      <span @click="pag--">Left</span>
+      <span @click="pag++">Right</span>
     </section>
   </main>
 </template>
 
 <style scoped>
-
 .table {
   width: 82vw;
   height: 90vh;
-  box-shadow: 0 .4rem .8rem #0005;
-  border-radius: .8rem;
+  box-shadow: 0 0.4rem 0.8rem #0005;
+  border-radius: 0.8rem;
   overflow: hidden;
 }
 
 .table__header {
   width: 100%;
   height: 10%;
-  padding: .8rem 1rem;
+  padding: 0.8rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,8 +125,8 @@ th:hover {
   width: 95%;
   max-height: calc(89% - 1.6rem);
 
-  margin: .8rem auto;
-  border-radius: .6rem;
+  margin: 0.8rem auto;
+  border-radius: 0.6rem;
 
   overflow: auto;
 }
@@ -110,7 +143,7 @@ th {
 }
 
 .table__body::-webkit-scrollbar-thumb {
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   /* background-color: #0004; */
   visibility: hidden;
 }
@@ -131,14 +164,6 @@ table {
   position: relative;
 }
 
-
-
-
-
-
-
-
-
 .triangle {
   position: absolute;
   left: 10px;
@@ -156,6 +181,4 @@ table {
 .triangle__selected {
   filter: invert(5) hue-rotate(300deg);
 }
-
-
 </style>

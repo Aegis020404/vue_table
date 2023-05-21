@@ -20,6 +20,7 @@ export const mutations: MutationTree<State> & Mutations = {
         localStorage.setItem("list", JSON.stringify(employess.list));
     },
     sortedByList({ employess }, pattern) {
+        
         if (pattern === employess.sortedBy) {
             employess.list.sort((staff1: StaffI, staff2: StaffI): number => {
                 const value1 = String(staff1[pattern as keyof StaffI]);
@@ -59,10 +60,22 @@ export const mutations: MutationTree<State> & Mutations = {
  */
 
 export type Getters = {
+    sortAndFilterList(state:State):(pag:number) => StaffI
 };
 
 export const getters: GetterTree<State, State> & Getters = {
+    sortAndFilterList({employess}) {
+         return function(pag) {
+             console.log(employess.pag);
+             console.log(employess.list.slice((pag - 1) * 10,
+             pag * 10));
 
+            return employess.list.slice((pag - 1) * 10,
+            pag * 10)
+            return employess.list
+         }
+            return employess.list
+    }
 };
 
 /*
