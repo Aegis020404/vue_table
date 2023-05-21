@@ -5,4 +5,9 @@ import "./assets/reset.css"
 import "./assets/global.css"
 import { store } from "./store";
 
-createApp(App).use(store).use(router).mount("#app");
+
+createApp(App)
+.provide("$store", store)
+    .use(store)
+    .use(router)
+    .mount("#app");

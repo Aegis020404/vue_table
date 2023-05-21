@@ -47,6 +47,8 @@
 <script lang="ts">
 import { StaffI } from "@/models";
 import { defineComponent } from "vue";
+import { ComponentPublicInstance } from 'vue';
+
 export default defineComponent({
   data() {
     return {
@@ -71,8 +73,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    const staff: StaffI | null =
-      this.$store.state.employess.list.find(
+    const staff: StaffI | null = this.$store.state.employess.list.find(
         (staff: StaffI) => staff.id === +this.$route.params.id
       ) || null;
     if (!staff) {
