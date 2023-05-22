@@ -77,7 +77,7 @@ tr:nth-child(odd) {
   background: #222222;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   td:not(:first-of-type) {
     min-width: 12.1rem;
   }

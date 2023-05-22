@@ -67,7 +67,7 @@ export default defineComponent({
       @hideDialog="hideDialog"
     />
     <section class="table__header">
-      <a href="https://www.atbgroup.ru/">
+      <a href="https://www.atbgroup.ru/" class="logo">
         <img
           src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png"
           alt=""
@@ -130,20 +130,36 @@ export default defineComponent({
       <div v-else>Добавьте данные</div>
 
   
-      <pagination :pag="pag" @nextPag="nextPag" @prevPag="prevPag" :search="search" />
     </section>
+    <pagination :pag="pag" @nextPag="nextPag" @prevPag="prevPag" :search="search" />
+
   </main>
 </template>
 
 <style scoped>
 .table {
-  width: 82vw;
-  height: 90vh;
-  box-shadow: 0 0.4rem 0.8rem #0005;
-  border-radius: 0.8rem;
-  overflow: hidden;
+  margin: 0 auto;
+  margin-top: 20px;
+    padding: 10px;
+    width: 82vw;
+    box-shadow: 0 0.4rem 0.8rem #0005;
+    border-radius: 0.8rem;
+    overflow: hidden;
+}
+.table__body::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
 }
 
+.table__body::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: rgba(220, 220, 220, 0.267);
+    visibility: hidden;
+}
+
+.table__body:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
 .table__header {
   width: 100%;
   height: 10%;
@@ -191,6 +207,7 @@ th {
 }
 
 table {
+  position: relative;
   width: 100%;
 }
 
@@ -222,5 +239,25 @@ table {
   border: 1px solid rgb(44, 44, 44);
   padding: 15px 25px;
   border-radius: 40px;
+}
+@media (max-width: 1100px) {
+  table {
+    overflow: scroll;
+  }
+  .table {
+    margin: 0;
+    width: 100%;
+  }
+ }
+ @media (max-width: 450px) {
+  .logo {
+    display: none;
+  }
+  .table__header {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }
 </style>

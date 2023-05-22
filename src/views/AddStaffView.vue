@@ -31,7 +31,7 @@ export default defineComponent({
     methods:{
       addStaff(staff:StaffI) {
         this.$store.commit('addStaff', staff);
-        this.$router.push('/');
+        // this.$router.push('/');
 
       }
     }
@@ -41,8 +41,11 @@ export default defineComponent({
 <style scoped>
 .AddStaffView {
   opacity: 1;
-  width: 82vw;
-  height: 90vh;
+  /* width: 82vw; */
+  /* height: 90vh; */
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
   background-color: rgb(25, 25, 25);
   border-radius: 0.8rem;
   overflow: hidden;
@@ -70,11 +73,16 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   margin-top: 50px;
-  width: 50%;
   gap:30px;
   margin:0 auto;
 }
 .back:hover {
   color:aquamarine
+}
+@media (max-width: 450px) {
+  .back {
+    color:yellow;
+    font-size: 12px;
+  }
 }
 </style>

@@ -43,12 +43,6 @@
           size="30"
           maxlength="100"
         ></textarea>
-        <div
-          class="err"
-          v-if="err && !description"
-        >
-          Обязательно для заполнения
-        </div>
       </div>
     </div>
     <div @click="setStaff">
@@ -92,8 +86,7 @@ export default defineComponent({
         staff.firstName &&
         staff.lastName &&
         staff.middleName &&
-        staff.birthDate &&
-        staff.description
+        staff.birthDate
       ) {
         if (!this.isGetData) staff.id = Date.now();
         this.$emit("setStaff", staff);
@@ -159,5 +152,10 @@ export default defineComponent({
 .err {
   font-size: 12px;
   color: red;
+}
+@media (max-width: 450px) {
+  .FormStaff {
+    font-size: 12px;
+  }
 }
 </style>
