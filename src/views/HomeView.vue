@@ -81,7 +81,9 @@ export default defineComponent({
         v-model="search"
         spellcheck
       />
-      <router-link to="/add_staff">Добавить пользователя</router-link>
+      <router-link to="/add_staff">
+        <div class="addStaff">Добавить пользователя</div>
+      </router-link>
     </section>
     <section class="table__body">
       <table v-if="$store.state.employess.list.length">
@@ -91,7 +93,10 @@ export default defineComponent({
             <th
               v-for="pattern of listPattern"
               :key="pattern.id"
-              @click="$store.commit('sortedByList', pattern[0]);pag=1"
+              @click="
+                $store.commit('sortedByList', pattern[0]);
+                pag = 1;
+              "
               class="thead"
             >
               {{ pattern[1] }}
@@ -128,11 +133,13 @@ export default defineComponent({
         />
       </table>
       <div v-else>Добавьте данные</div>
-
-  
     </section>
-    <pagination :pag="pag" @nextPag="nextPag" @prevPag="prevPag" :search="search" />
-
+    <pagination
+      :pag="pag"
+      @nextPag="nextPag"
+      @prevPag="prevPag"
+      :search="search"
+    />
   </main>
 </template>
 
@@ -140,25 +147,25 @@ export default defineComponent({
 .table {
   margin: 0 auto;
   margin-top: 20px;
-    padding: 10px;
-    width: 82vw;
-    box-shadow: 0 0.4rem 0.8rem #0005;
-    border-radius: 0.8rem;
-    overflow: hidden;
+  padding: 10px;
+  width: 82vw;
+  box-shadow: 0 0.4rem 0.8rem #0005;
+  border-radius: 0.8rem;
+  overflow: hidden;
 }
-.table__body::-webkit-scrollbar{
-    width: 0.5rem;
-    height: 0.5rem;
-}
-
-.table__body::-webkit-scrollbar-thumb{
-    border-radius: .5rem;
-    background-color: rgba(220, 220, 220, 0.267);
-    visibility: hidden;
+.table__body::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
-.table__body:hover::-webkit-scrollbar-thumb{ 
-    visibility: visible;
+.table__body::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: rgba(220, 220, 220, 0.267);
+  visibility: hidden;
+}
+
+.table__body:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
 }
 .table__header {
   width: 100%;
@@ -169,10 +176,11 @@ export default defineComponent({
   align-items: center;
 }
 th {
-  transition: all .4s;
+  transition: all 0.4s;
+  color: #a6a6a6;
 }
 th:hover {
-  color: #fbf41d;
+  color: #ffffff;
 }
 .table__body {
   width: 95%;
@@ -240,7 +248,18 @@ table {
   padding: 15px 25px;
   border-radius: 40px;
 }
-@media (max-width: 1100px) {
+.addStaff {
+  color: rgb(177, 212, 177);
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.addStaff:hover {
+  color: rgb(0, 0, 0);
+  background: greenyellow;
+}
+@media (max-width: 1200px) {
   table {
     overflow: scroll;
   }
@@ -248,8 +267,8 @@ table {
     margin: 0;
     width: 100%;
   }
- }
- @media (max-width: 450px) {
+}
+@media (max-width: 450px) {
   .logo {
     display: none;
   }

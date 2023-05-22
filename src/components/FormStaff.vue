@@ -32,7 +32,7 @@
     </div>
     <div class="label">
       <div class="title title_textarea">
-        Описание <span class="required">*</span>
+        Описание 
       </div>
       <div>
         <textarea

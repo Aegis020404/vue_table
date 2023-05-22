@@ -41,8 +41,6 @@ export default defineComponent({
 <style scoped>
 .AddStaffView {
   opacity: 1;
-  /* width: 82vw; */
-  /* height: 90vh; */
   margin: 0 auto;
   width: 100%;
   height: 100%;
@@ -58,10 +56,10 @@ export default defineComponent({
   border-radius: 15px;
   transition: all .3s;
   cursor: pointer;
-  color:rgb(13, 255, 0);
+  color:rgb(33, 209, 54);
 }
 .btn:hover {
-  background: rgb(221, 255, 0);
+  background: rgb(33, 209, 54);
   color:black
 }
 .back {
@@ -81,7 +79,7 @@ export default defineComponent({
 }
 @media (max-width: 450px) {
   .back {
-    color:yellow;
+    color:rgb(52, 212, 240);
     font-size: 12px;
   }
 }
