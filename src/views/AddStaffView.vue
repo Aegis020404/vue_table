@@ -31,14 +31,14 @@ export default defineComponent({
     methods:{
       addStaff(staff:StaffI) {
         this.$store.commit('addStaff', staff);
-        // this.$router.push('/');
+        this.$router.push('/');
 
       }
     }
 })
 </script>
 
-<style scoped>
+<style>
 .AddStaffView {
   opacity: 1;
   margin: 0 auto;

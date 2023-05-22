@@ -12,6 +12,7 @@ export type MutationPayload = {
     sortedByList: string
     addStaff: StaffI
     editStaff: StaffI
+    setBuffer: { checked: boolean, id: number }
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -20,7 +21,7 @@ export const mutations: MutationTree<State> & Mutations = {
         localStorage.setItem("list", JSON.stringify(employess.list));
     },
     sortedByList({ employess }, pattern) {
-        
+
         if (pattern === employess.sortedBy) {
             employess.list.sort((staff1: StaffI, staff2: StaffI): number => {
                 const value1 = String(staff1[pattern as keyof StaffI]);
@@ -47,6 +48,17 @@ export const mutations: MutationTree<State> & Mutations = {
             (staff: StaffI) => staff.id === payload.id ? payload : staff);
         localStorage.setItem("list", JSON.stringify(employess.list));
     },
+    setBuffer({ employess }, payload) {
+        if (payload.checked) {
+            employess.buffer.push(payload.id)
+        } else {
+            employess.buffer = employess.buffer.filter(id =>  id !== payload.id);
+        }
+    },
+    deleteBuffer({employess}) {
+        employess.list = employess.list.filter((staff:StaffI) =>  !employess.buffer.includes(staff.id));
+        employess.buffer = [];
+    }
 };
 
 /*
@@ -54,33 +66,33 @@ export const mutations: MutationTree<State> & Mutations = {
  */
 
 export type Getters = {
-    sortAndFilterList(state:State):(pag:number,search:string) => StaffI[]
+    sortAndFilterList(state: State): (pag: number, search: string) => StaffI[]
 };
 
 export const getters: GetterTree<State, State> & Getters = {
-    sortAndFilterList({employess}) {
-         return function(pag,search) {
+    sortAndFilterList({ employess }) {
+        return function (pag, search) {
             let state = employess.list
             if (search.length > 2) {
-                state = state.filter((obj:StaffI)=> {
+                state = state.filter((obj: StaffI) => {
                     let flag = false;
-                    for(let key in initialState.employess.list[0]) {
-                        if (obj.firstName.includes(search))  flag=true;
-                        if (obj.lastName.includes(search))  flag=true;
-                        if (obj.birthDate.includes(search))  flag=true;
-                        if (obj.middleName.includes(search))  flag=true;
-                        if (obj.description.includes(search))  flag=true;
-                        
+                    for (let key in initialState.employess.list[0]) {
+                        if (obj.firstName.includes(search)) flag = true;
+                        if (obj.lastName.includes(search)) flag = true;
+                        if (obj.birthDate.includes(search)) flag = true;
+                        if (obj.middleName.includes(search)) flag = true;
+                        if (obj.description.includes(search)) flag = true;
+
                     }
                     return flag;
                 })
-                
+
             }
-            
+
 
             return state.slice((pag - 1) * 10,
-            pag * 10);;
-         }
+                pag * 10);;
+        }
     }
 };
 

@@ -81,6 +81,15 @@ export default defineComponent({
         v-model="search"
         spellcheck
       />
+      <button 
+      @click="turnOnModalDeleting(1)"
+      v-if="$store.state.employess.buffer.length" 
+      class="bufferDlt">
+        Удалить выделенных <br />
+        пользователей
+        {{ $store.state.employess.buffer.length }}
+      </button>
+
       <router-link to="/add_staff">
         <div class="addStaff">Добавить пользователя</div>
       </router-link>
@@ -132,7 +141,7 @@ export default defineComponent({
           :pag="pag"
         />
       </table>
-      <div v-else>Добавьте данные</div>
+      <div class="emptyList" v-else>Добавьте данные</div>
     </section>
     <pagination
       :pag="pag"
@@ -249,6 +258,7 @@ table {
   border-radius: 40px;
 }
 .addStaff {
+  transition: all .7s;
   color: rgb(177, 212, 177);
   font-weight: 700;
   padding: 10px 20px;
@@ -258,6 +268,19 @@ table {
 .addStaff:hover {
   color: rgb(0, 0, 0);
   background: greenyellow;
+}
+.bufferDlt {
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 10px 15px;
+  color: red;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+.bufferDlt:hover {
+  background: red;
+  color: white;
 }
 @media (max-width: 1200px) {
   table {
@@ -278,5 +301,10 @@ table {
     flex-direction: column;
     justify-content: space-between;
   }
+}
+.emptyList {
+  padding: 10px;
+  font-weight: 800;
+  
 }
 </style>

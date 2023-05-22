@@ -11,7 +11,7 @@
       :isGetData="true" 
       > 
       <button class="btn">
-        Отправить
+        Изменить
       </button>
       </form-staff>
       
@@ -36,17 +36,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style>
 
-.AddStaffView {
-  opacity: 1;
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(25, 25, 25);
-  border-radius: 0.8rem;
-  overflow: hidden;
-}
+
 
 .btn {
   text-align: center;
@@ -61,19 +53,5 @@ export default defineComponent({
   background: rgb(221, 255, 0);
   color:black
 }
-.form {
-  display: flex;
-  flex-direction: column;
-  margin-top: 50px;
-  gap:30px;
-  margin:0 auto;
-}
-.back {
-  margin-top: 20px;
-  margin-left: 20px;
-  transition: all .4s;
-}
-.back:hover {
-  color:aquamarine
-}
+
 </style>

@@ -1,8 +1,9 @@
 <template>
   <transition-group name="list" tag="tbody">
     <tr class="tr" v-for="staff of $store.getters.sortAndFilterList(pag,search)" :key="staff.id">
-    <!-- <tr class="tr" v-for="staff of $store.state.employess.list" :key="staff.id"> -->
-      <td class="td"><input type="checkbox" /></td>
+      <td class="td">
+        <checkbox @setValue="setValueCheckbox($event,staff.id)" :value="$store.state.employess.buffer.find(id =>  id === staff.id) || null"/>
+      </td>
       <td class="td">{{ staff.firstName }}</td>
       <td class="td">{{ staff.lastName }}</td>
       <td class="td">{{ staff.middleName }}</td>
@@ -29,8 +30,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapMutations } from "vuex";
+import checkbox from "@/components/UI/Checkbox.vue";
 
 export default defineComponent({
+  components:{
+    checkbox
+  },
   props:{
     pag:{
       type:Number,
@@ -42,7 +47,9 @@ export default defineComponent({
   },
   methods: {
     ...mapMutations(["deleteStaff"]),
-
+    setValueCheckbox(checked:boolean,id:number) {
+      this.$store.commit("setBuffer",{checked,id});
+    }
   },
 });
 </script>
@@ -87,6 +94,10 @@ cursor: pointer;
 }
 .edit:hover {
   filter: invert(5) hue-rotate(300deg);
-
 }
+
+
+
+
+
 </style>

@@ -5,7 +5,7 @@
         <div class="btns">
           <button class="btn delete"
            @keydown.enter="{deleteStaff(id);hideDialog();}"
-           @click="{deleteStaff(id);hideDialog();}"
+           @click="{$store.commit('deleteBuffer');deleteStaff(id);hideDialog();}"
            >Ок</button>
           <button class="btn cancel" @click="hideDialog">Отмена</button>
         </div>
@@ -26,8 +26,10 @@ export default defineComponent({
           default: false,   
       },
       id: {
-        type:Number
-      }
+        type:Number,
+        default:0,
+      },
+      
     },
     methods:{
   ...mapMutations(['deleteStaff']) ,
