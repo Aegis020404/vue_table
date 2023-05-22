@@ -1,32 +1,58 @@
-<template>
-  <div>
-    Фамилия и имя <span class="required">*</span
-    ><input class="input" type="text" :required="true" name="" v-model.trim="full_name" />
-    <div>Обязательно для заполнения</div>
-  </div>
-  <div>
-    Отчество
-    <input class="input" type="text" name="" v-model.trim="middleName" />
-  </div>
-  <div>
-    Дата рождения <span class="required">*</span
-    ><input type="date" name="" :required="true" v-model.trim="birthDate" />
-  </div>
-  <div>
-    Описание  <span class="required">*</span>
-    <div>
-      <textarea
-      :required="true"
-        v-model="description"
-        class="input"
-        name=""
-        id=""
-        cols="30"
-        rows="10"
-      ></textarea>
+<template >
+  <div class="FormStaff">
+    <div class="label">
+      <div class="title">Фамилия и Имя <span class="required">*</span></div>
+      <div class="inputValid">
+        <input class="input" type="text" name="" v-model.trim="full_name" />
+        <div
+          class="err"
+          v-if="err && !(full_name.split(' ')[0] && full_name.split(' ')[1])"
+        >
+          Обязательно для заполнения
+        </div>
+      </div>
+    </div>
+    <div class="label">
+      <div class="title">Отчество</div>
+      <div>
+        <input class="input" type="text" name="" v-model.trim="middleName" />
+      </div>
+    </div>
+    <div class="label">
+      <div class="title">Дата рождения <span class="required">*</span></div>
+      <div>
+        <input class="input" type="date" name="" v-model.trim="birthDate" />
+        <div
+          class="err"
+          v-if="err && !birthDate"
+        >
+          Обязательно для заполнения
+        </div>
+      </div>
+    </div>
+    <div class="label">
+      <div class="title title_textarea">
+        Описание <span class="required">*</span>
+      </div>
+      <div>
+        <textarea
+          v-model="description"
+          class="input"
+          cols="10"
+          rows="7"
+          size="30"
+          maxlength="100"
+        ></textarea>
+        <div
+          class="err"
+          v-if="err && !description"
+        >
+          Обязательно для заполнения
+        </div>
+      </div>
     </div>
     <div @click="setStaff">
-        <slot />
+      <slot />
     </div>
   </div>
 </template>
@@ -36,7 +62,7 @@ import { defineComponent } from "vue";
 import { StaffI } from "@/models";
 import InitialState from "@/InitialState";
 export default defineComponent({
-    emits: ["setStaff"],
+  emits: ["setStaff"],
   props: {
     isGetData: {
       type: Boolean,
@@ -49,7 +75,7 @@ export default defineComponent({
       birthDate: "",
       description: "",
       id: NaN,
-      flag:15,
+      err: false,
     };
   },
   methods: {
@@ -62,21 +88,18 @@ export default defineComponent({
         description: this.description,
         id: this.id,
       };
-      this.flag = 0;
-      if(staff.firstName) this.flag |= 1
-      if(staff.lastName) this.flag |= 2
-      if(staff.birthDate) this.flag |= 4
-      if(staff.description) this.flag |= 8
-
-    //   console.log((flag & 1) + "____________" + (flag & 2)  + "____________" + (flag & 4)    + "____________" + (flag & 8)              )
-
-
-
-      if (this.flag === 15) {
+      if (
+        staff.firstName &&
+        staff.lastName &&
+        staff.middleName &&
+        staff.birthDate &&
+        staff.description
+      ) {
+        if (!this.isGetData) staff.id = Date.now();
         this.$emit("setStaff", staff);
-        console.log(this.flag)
       } else {
-        console.log(this.flag)
+        this.err = true;
+        console.error("ERROR")
       }
     },
   },
@@ -94,28 +117,47 @@ export default defineComponent({
         this.birthDate = staff.birthDate;
         this.description = staff.description;
         this.id = staff.id;
-      } 
-    } else {
-        this.id = Date.now();
+      }
     }
   },
 });
 </script>
 
-<style>
-.input:invalid {
-    border:1px solide red;
-
+<style scoped>
+.FormStaff {
+  font-size: 20px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
 }
-.input::before {
-    background: red;
-    display: block;
-    width: 1000px;
-    height: 1000px;
-    content: "HUI";
+.label {
+  gap: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.input::before:invalid {
-
-    color:red;
+.title {
+}
+.input {
+  border: 1px solid black;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-top: 5px;
+  width: 250px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+.required {
+  color: red;
+}
+.title_textarea {
+  align-self: flex-start;
+}
+.err {
+  font-size: 12px;
+  color: red;
 }
 </style>

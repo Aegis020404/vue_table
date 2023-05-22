@@ -2,8 +2,9 @@
 
 <template>
   <div class="AddStaffView">
-    <router-link to="/">Home</router-link> |
-    <h1>This is an about page</h1>
+    <div class="back">
+      <router-link to="/">Перейти на главную</router-link>
+    </div>
     <form @submit.prevent class="form">
       <form-staff
       @setStaff="editStaff"
@@ -21,20 +22,13 @@
 import { StaffI } from "@/models";
 import FormStaff from "@/components/FormStaff.vue";
 import { defineComponent } from "vue";
-import { ComponentPublicInstance } from 'vue';
 
 export default defineComponent({
   components:{
     FormStaff
   },
-  data() {
-    return {
- 
-    }
-  },
   methods: {
     editStaff(staff:StaffI) {
-      console.log(staff)
       this.$store.commit('editStaff', staff);
       this.$router.push('/');
     },
@@ -42,7 +36,30 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
+
+.AddStaffView {
+  opacity: 1;
+  width: 82vw;
+  height: 90vh;
+  background-color: rgb(25, 25, 25);
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+
+.btn {
+  text-align: center;
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  transition: all .3s;
+  cursor: pointer;
+  color:rgb(221, 255, 0);
+}
+.btn:hover {
+  background: rgb(221, 255, 0);
+  color:black
+}
 .form {
   display: flex;
   flex-direction: column;
@@ -51,31 +68,12 @@ export default defineComponent({
   gap:30px;
   margin:0 auto;
 }
-.AddStaffView {
-  opacity: 1;
-  width: 82vw;
-  height: 90vh;
-  /* background-color: rgba(141, 129, 129, 0.333); */
-  box-shadow: 0 0.4rem 0.8rem #0005;
-  border-radius: 0.8rem;
-  overflow: hidden;
+.back {
+  margin-top: 20px;
+  margin-left: 20px;
+  transition: all .4s;
 }
-.input {
-  border: 1px solid black;
-  padding: 5px 10px;
-  border-radius: 10px;
-}
-.required {
-  color: red;
-}
-.btn {
-  padding: 10px 15px;
-  border-radius: 15px;
-  transition: all .3s;
-  cursor: pointer;
-}
-.btn:hover {
-  background: white;
-  color:black
+.back:hover {
+  color:aquamarine
 }
 </style>

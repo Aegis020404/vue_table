@@ -1,7 +1,8 @@
 <template>
   <div class="AddStaffView">
-    <router-link to="/">Home</router-link> |
-    <h1>This is an about page</h1>
+    <div class="back">
+      <router-link to="/">Перейти на главную</router-link>
+    </div>
     <form @submit.prevent class="form">
       <form-staff
       @setStaff="addStaff"
@@ -29,9 +30,8 @@ export default defineComponent({
   },
     methods:{
       addStaff(staff:StaffI) {
-        console.log(staff)
         this.$store.commit('addStaff', staff);
-        // this.$router.push('/');
+        this.$router.push('/');
 
       }
     }
@@ -40,24 +40,41 @@ export default defineComponent({
 
 <style scoped>
 .AddStaffView {
+  opacity: 1;
   width: 82vw;
   height: 90vh;
-  background-color: #fff5;
-  box-shadow: 0 .4rem .8rem #0005;
-  border-radius: .8rem;
+  background-color: rgb(25, 25, 25);
+  border-radius: 0.8rem;
   overflow: hidden;
 }
-.input {
-  border: 1px solid black;
-  padding: 5px 10px;
-  border-radius: 10px;
-}
-.required {
-  color: red;
-}
+
 .btn {
+  text-align: center;
+  width: 100%;
   padding: 10px 15px;
-  background: wheat;
   border-radius: 15px;
+  transition: all .3s;
+  cursor: pointer;
+  color:rgb(13, 255, 0);
+}
+.btn:hover {
+  background: rgb(221, 255, 0);
+  color:black
+}
+.back {
+  margin-top: 20px;
+  margin-left: 20px;
+  transition: all .4s;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  width: 50%;
+  gap:30px;
+  margin:0 auto;
+}
+.back:hover {
+  color:aquamarine
 }
 </style>

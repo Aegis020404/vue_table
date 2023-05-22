@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 import { HomeViewI, StaffI } from "@/models";
 import TableRow from "../components/TableRow.vue";
+import Pagination from "../components/UI/Pagination.vue";
 import ModalConfirmDelete from "../components/UI/ModalConfirmDelete.vue";
 import { useStore } from "vuex";
 import { ComponentPublicInstance } from "vue";
@@ -10,6 +11,7 @@ export default defineComponent({
   components: {
     TableRow,
     ModalConfirmDelete,
+    Pagination,
   },
   data() {
     return {
@@ -22,18 +24,37 @@ export default defineComponent({
       ],
       id_deleting: NaN,
       pag: 1,
+      search: "",
     };
   },
   methods: {
     turnOnModalDeleting(id: number) {
-      console.log(id);
       this.id_deleting = id;
     },
     hideDialog() {
       this.id_deleting = NaN;
     },
+    nextPag() {
+      this.pag++;
+    },
+    prevPag() {
+      this.pag--;
+    },
   },
-
+  watch: {
+    search() {
+      this.pag = 1;
+    },
+    pag() {
+      if (this.pag <= 0) {
+        this.pag = 1;
+      } else if (
+        !this.$store.getters.sortAndFilterList(this.pag, this.search).length
+      ) {
+        this.pag--;
+      }
+    },
+  },
 });
 </script>
 
@@ -48,10 +69,18 @@ export default defineComponent({
     <section class="table__header">
       <a href="https://www.atbgroup.ru/">
         <img
-        src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png"
-        alt=""
-      />
+          src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png"
+          alt=""
+        />
       </a>
+      <input
+        type="text"
+        class="searchInput"
+        placeholder="Поиск"
+        size="30"
+        v-model="search"
+        spellcheck
+      />
       <router-link to="/add_staff">Добавить пользователя</router-link>
     </section>
     <section class="table__body">
@@ -62,7 +91,7 @@ export default defineComponent({
             <th
               v-for="pattern of listPattern"
               :key="pattern.id"
-              @click="$store.commit('sortedByList', pattern[0])"
+              @click="$store.commit('sortedByList', pattern[0]);pag=1"
               class="thead"
             >
               {{ pattern[1] }}
@@ -92,14 +121,16 @@ export default defineComponent({
             <th />
           </tr>
         </thead>
-        <table-row @turnOnModalDeleting="turnOnModalDeleting" :pag="pag" />
+        <table-row
+          @turnOnModalDeleting="turnOnModalDeleting"
+          :search="search"
+          :pag="pag"
+        />
       </table>
       <div v-else>Добавьте данные</div>
-      <div v-if="$store.state.employess.list.length > 10">
-        <div>Pagination {{ pag }}</div>
-      <span @click="pag--">Left</span>
-      <span @click="pag++">Right</span>
-      </div>
+
+  
+      <pagination :pag="pag" @nextPag="nextPag" @prevPag="prevPag" :search="search" />
     </section>
   </main>
 </template>
@@ -121,9 +152,11 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
 }
-
+th {
+  transition: all .4s;
+}
 th:hover {
-  color: #003fff;
+  color: #fbf41d;
 }
 .table__body {
   width: 95%;
@@ -184,5 +217,10 @@ table {
 
 .triangle__selected {
   filter: invert(5) hue-rotate(300deg);
+}
+.searchInput {
+  border: 1px solid rgb(44, 44, 44);
+  padding: 15px 25px;
+  border-radius: 40px;
 }
 </style>

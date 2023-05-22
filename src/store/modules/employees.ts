@@ -54,21 +54,33 @@ export const mutations: MutationTree<State> & Mutations = {
  */
 
 export type Getters = {
-    sortAndFilterList(state:State):(pag:number) => StaffI
+    sortAndFilterList(state:State):(pag:number,search:string) => StaffI[]
 };
 
 export const getters: GetterTree<State, State> & Getters = {
     sortAndFilterList({employess}) {
-         return function(pag) {
-             console.log(employess.pag);
-             console.log(employess.list.slice((pag - 1) * 10,
-             pag * 10));
+         return function(pag,search) {
+            let state = employess.list
+            if (search.length > 2) {
+                state = state.filter((obj:StaffI)=> {
+                    let flag = false;
+                    for(let key in initialState.employess.list[0]) {
+                        if (obj.firstName.includes(search))  flag=true;
+                        if (obj.lastName.includes(search))  flag=true;
+                        if (obj.birthDate.includes(search))  flag=true;
+                        if (obj.middleName.includes(search))  flag=true;
+                        if (obj.description.includes(search))  flag=true;
+                        
+                    }
+                    return flag;
+                })
+                
+            }
+            
 
-            return employess.list.slice((pag - 1) * 10,
-            pag * 10)
-            return employess.list
+            return state.slice((pag - 1) * 10,
+            pag * 10);;
          }
-            return employess.list
     }
 };
 
