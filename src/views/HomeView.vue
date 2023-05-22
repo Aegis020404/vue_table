@@ -46,10 +46,12 @@ export default defineComponent({
       @hideDialog="hideDialog"
     />
     <section class="table__header">
-      <img
+      <a href="https://www.atbgroup.ru/">
+        <img
         src="https://static.tildacdn.com/tild3036-6239-4632-a466-363239613163/_.png"
         alt=""
       />
+      </a>
       <router-link to="/add_staff">Добавить пользователя</router-link>
     </section>
     <section class="table__body">
@@ -93,9 +95,11 @@ export default defineComponent({
         <table-row @turnOnModalDeleting="turnOnModalDeleting" :pag="pag" />
       </table>
       <div v-else>Добавьте данные</div>
-      <div>Pagination {{ pag }}</div>
+      <div v-if="$store.state.employess.list.length > 10">
+        <div>Pagination {{ pag }}</div>
       <span @click="pag--">Left</span>
       <span @click="pag++">Right</span>
+      </div>
     </section>
   </main>
 </template>

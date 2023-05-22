@@ -47,12 +47,6 @@ export const mutations: MutationTree<State> & Mutations = {
             (staff: StaffI) => staff.id === payload.id ? payload : staff);
         localStorage.setItem("list", JSON.stringify(employess.list));
     },
-    nextPage({ employess }){
-        employess.pag++;
-     },
-     prevPage({ employess }){
-        employess.pag--;
-     }
 };
 
 /*

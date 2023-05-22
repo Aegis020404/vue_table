@@ -1,20 +1,17 @@
 <template>
   <div class="AddStaffView">
-        <router-link to="/">Home</router-link> |
+    <router-link to="/">Home</router-link> |
     <h1>This is an about page</h1>
-   <div> Фамилия и имя <span class="required">*</span><input class="input" type="text" name=""  v-model.trim="full_name"></div>
-   <div > Отчество  <input class="input" type="text" name=""  v-model.trim="middleName"></div>
-   <div> День рожденье  <span class="required">*</span><input type="date" name=""  v-model.trim="birthDate"></div>
-   <div> Описание <span class="required">*</span>
-    <div>
-      <textarea v-model="description" class="input" name="" id="" cols="30" rows="10"></textarea></div>
-    </div>
-    <button @click="{
-      let staff = addStaff();
-      $store.commit('addStaff', staff);
-      $router.push('/');
-
-      }" class="btn">Отправить</button>
+    <form @submit.prevent class="form">
+      <form-staff
+      @setStaff="addStaff"
+      :isGetData="false" 
+      > 
+      <button class="btn">
+        Отправить
+      </button>
+      </form-staff>
+      </form>
   </div>
 </template>
 
@@ -23,29 +20,18 @@
 import {defineComponent} from 'vue'
 import {mapMutations} from 'vuex'
 import {StaffI} from '@/models'
+import FormStaff from "@/components/FormStaff.vue";
+import { ComponentPublicInstance } from 'vue';
 
 export default defineComponent({
-    data() {
-      return {
-        full_name:"sad dsa",
-        middleName: "",
-        birthDate: "",
-        description: ""
-      }
-    },
+  components:{
+    FormStaff
+  },
     methods:{
-      addStaff() {
-        let staff:StaffI = {
-          firstName: this.full_name.split(" ")[0],
-          lastName: this.full_name.split(" ")[1],
-          middleName:this.middleName,
-          birthDate:this.birthDate,
-          description:this.description,
-          id:Date.now(),
-        }
-        return staff
-
-
+      addStaff(staff:StaffI) {
+        console.log(staff)
+        this.$store.commit('addStaff', staff);
+        // this.$router.push('/');
 
       }
     }
